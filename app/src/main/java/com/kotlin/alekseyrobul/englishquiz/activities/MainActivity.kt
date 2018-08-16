@@ -4,6 +4,7 @@ import android.app.Fragment
 import android.view.Menu
 import com.kotlin.alekseyrobul.englishquiz.R
 import com.kotlin.alekseyrobul.englishquiz.fragments.BoomerangFragment
+import com.kotlin.alekseyrobul.englishquiz.fragments.boomerangView
 import com.kotlin.alekseyrobul.englishquiz.helpers.BaseActivity
 import org.jetbrains.anko.constraint.layout.constraintLayout
 
