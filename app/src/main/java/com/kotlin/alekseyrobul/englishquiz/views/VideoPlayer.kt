@@ -15,9 +15,9 @@ inline fun ViewManager.videoPlayer(theme: Int = 0, context: Context) = videoPlay
 //    val demoView = VideoPlayer(context)
 //    return ankoView({ demoView.createView(AnkoContext.create(it)) }, theme, { init(demoView) })
 //}
-inline fun ViewManager.videoPlayer(theme: Int = 0, context: Context, init: VideoPlayer.(demoView: VideoPlayer) -> Unit): VideoPlayer {
+inline fun ViewManager.videoPlayer(theme: Int = 0, context: Context, init: View.(demoView: VideoPlayer) -> Unit): VideoPlayer {
     val demoView = VideoPlayer(context)
-    ankoView({ demoView.createView(AnkoContext.create(it)) }, theme, { init(demoView,demoView) })
+    ankoView({ demoView.createView(AnkoContext.create(it)) }, theme, { init(demoView) })
     return demoView
 }
 

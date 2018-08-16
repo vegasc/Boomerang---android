@@ -11,6 +11,7 @@ import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.custom.ankoView
+import org.jetbrains.anko.dip
 
 inline fun ViewManager.boomerangView(theme: Int = 0) = boomerangView(theme) {}
 inline fun ViewManager.boomerangView(theme: Int = 0, init: View.(demoView: BoomerangFragmentView) -> Unit): View {
@@ -24,11 +25,12 @@ class BoomerangFragmentView: AnkoComponent<Context> {
     override fun createView(ui: AnkoContext<Context>): View {
         return with(ui) {
             constraintLayout {
-                mVideoPlayer = videoPlayer(context = ui.ctx) {
+                val layout = constraintLayout()
+                mVideoPlayer = videoPlayer(context = context) {
                     backgroundColor = Color.GREEN
                 }.lparams(width = 300, height = 300){
-                    x = constraintLayout().x
-                    y = constraintLayout().y
+                    x = layout.x
+                    y = layout.y
                 }
             }
         }
