@@ -1,4 +1,4 @@
-package com.kotlin.alekseyrobul.englishquiz.helpers
+package com.kotlin.alekseyrobul.boomerang.helpers
 
 import android.os.Bundle
 import android.view.LayoutInflater

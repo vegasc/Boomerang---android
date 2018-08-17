@@ -1,11 +1,11 @@
-package com.kotlin.alekseyrobul.englishquiz.activities
+package com.kotlin.alekseyrobul.boomerang.activities
 
 import android.app.Fragment
 import android.view.Menu
-import com.kotlin.alekseyrobul.englishquiz.R
-import com.kotlin.alekseyrobul.englishquiz.fragments.BoomerangFragment
-import com.kotlin.alekseyrobul.englishquiz.fragments.boomerangView
-import com.kotlin.alekseyrobul.englishquiz.helpers.BaseActivity
+import com.kotlin.alekseyrobul.boomerang.R
+import com.kotlin.alekseyrobul.boomerang.fragments.BoomerangFragment
+import com.kotlin.alekseyrobul.boomerang.fragments.boomerangView
+import com.kotlin.alekseyrobul.boomerang.helpers.BaseActivity
 import org.jetbrains.anko.constraint.layout.constraintLayout
 
 class MainActivity : BaseActivity() {

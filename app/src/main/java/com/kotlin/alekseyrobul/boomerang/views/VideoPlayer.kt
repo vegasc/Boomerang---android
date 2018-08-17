@@ -1,4 +1,4 @@
-package com.kotlin.alekseyrobul.englishquiz.views
+package com.kotlin.alekseyrobul.boomerang.views
 
 import android.content.Context
 import android.media.MediaPlayer

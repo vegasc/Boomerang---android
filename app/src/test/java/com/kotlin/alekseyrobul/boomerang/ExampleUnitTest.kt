@@ -1,4 +1,4 @@
-package com.kotlin.alekseyrobul.englishquiz
+package com.kotlin.alekseyrobul.boomerang
 
 import org.junit.Test
 

@@ -1,10 +1,10 @@
-package com.kotlin.alekseyrobul.englishquiz.fragments
+package com.kotlin.alekseyrobul.boomerang.fragments
 
 import android.content.Context
 import android.view.View
 import android.view.ViewManager
-import com.kotlin.alekseyrobul.englishquiz.views.VideoPlayer
-import com.kotlin.alekseyrobul.englishquiz.views.videoSurfaceView
+import com.kotlin.alekseyrobul.boomerang.views.VideoPlayer
+import com.kotlin.alekseyrobul.boomerang.views.videoSurfaceView
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.custom.ankoView
