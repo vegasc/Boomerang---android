@@ -2,6 +2,7 @@ package com.kotlin.alekseyrobul.boomerang.fragments
 
 import android.view.View
 import com.kotlin.alekseyrobul.boomerang.helpers.BaseFragment
+import com.kotlin.alekseyrobul.boomerang.helpers.PermissionHelper
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.support.v4.UI
 
@@ -12,7 +13,7 @@ class BoomerangFragment: BaseFragment() {
      */
     private var mViewListener = object : BoomerangFragmentViewListener {
         override fun buttonTappedChooseVideoFile() {
-
+            getVideoFromLibarry()
         }
 
     }
@@ -35,4 +36,60 @@ class BoomerangFragment: BaseFragment() {
             }
         }.view
     }
+
+    /**
+     * Private funcs
+     */
+    private fun getVideoFromLibarry() {
+        if (context == null) { return }
+        val r = PermissionHelper.isMediaGalleryAvailable(context!!)
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

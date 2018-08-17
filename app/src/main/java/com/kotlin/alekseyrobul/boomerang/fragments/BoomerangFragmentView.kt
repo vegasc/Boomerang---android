@@ -73,12 +73,6 @@ class BoomerangFragmentView(context: Context): View(context), AnkoComponent<Cont
         }
     }
 
-    /**
-     * Public funcs
-     */
-    fun setVideoFile(path:String) {
-
-    }
 }
 
 
