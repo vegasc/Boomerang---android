@@ -7,18 +7,22 @@ import android.view.View
 import android.view.ViewManager
 import org.jetbrains.anko.AnkoComponent
 import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.AnkoViewDslMarker
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.custom.ankoView
 
-inline fun ViewManager.videoPlayer(theme: Int = 0, context: Context) = videoPlayer(theme, context) {}
-//inline fun ViewManager.videoPlayer(theme: Int = 0, context: Context, init: View.(demoView: VideoPlayer) -> Unit): View {
+//inline fun ViewManager.videoPlayer(theme: Int = 0, context: Context) = videoPlayer(theme, context) {}
+//inline fun ViewManager.videoPlayer(theme: Int = 0, context: Context, init: View.(demoView: VideoPlayer) -> Unit): VideoPlayer {
 //    val demoView = VideoPlayer(context)
-//    return ankoView({ demoView.createView(AnkoContext.create(it)) }, theme, { init(demoView) })
+//    ankoView({ demoView.createView(AnkoContext.create(it)) }, theme, { init(demoView) })
+//    return demoView
 //}
-inline fun ViewManager.videoPlayer(theme: Int = 0, context: Context, init: View.(demoView: VideoPlayer) -> Unit): VideoPlayer {
-    val demoView = VideoPlayer(context)
-    ankoView({ demoView.createView(AnkoContext.create(it)) }, theme, { init(demoView) })
-    return demoView
+
+inline fun ViewManager.videoSurfaceView(context: Context): android.view.SurfaceView = videoSurfaceView(context) {}
+inline fun ViewManager.videoSurfaceView(context: Context, init: (@AnkoViewDslMarker VideoPlayer).() -> Unit): VideoPlayer {
+    val videoPlayer = VideoPlayer(context)
+    videoPlayer.createView(AnkoContext.create(context))
+    return ankoView({videoPlayer}, theme = 0, init = { init() })
 }
 
 class VideoPlayer(context: Context): SurfaceView(context), AnkoComponent<Context> {
@@ -43,15 +47,15 @@ class VideoPlayer(context: Context): SurfaceView(context), AnkoComponent<Context
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        mPlayer.setDisplay(holder)
-        mPlayer.setOnCompletionListener(mPlayerComplitionListener)
-        mPlayer.setOnErrorListener(mPlayerErrorListener)
+//        mPlayer.setDisplay(holder)
+//        mPlayer.setOnCompletionListener(mPlayerComplitionListener)
+//        mPlayer.setOnErrorListener(mPlayerErrorListener)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        mPlayer.stop()
-        mPlayer.release()
+//        mPlayer.stop()
+//        mPlayer.release()
     }
 
     override fun createView(ui: AnkoContext<Context>): View {

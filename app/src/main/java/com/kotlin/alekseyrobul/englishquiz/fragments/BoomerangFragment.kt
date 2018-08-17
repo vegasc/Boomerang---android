@@ -11,9 +11,7 @@ class BoomerangFragment: BaseFragment() {
         return UI {
             constraintLayout {
                 val layout = constraintLayout()
-                boomerangView {
-
-                }.lparams {
+                boomerangView {}.lparams {
                     topToTop = layout.top
                     bottomToBottom = layout.bottom
                     leftToLeft = layout.left
