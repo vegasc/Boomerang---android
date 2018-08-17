@@ -2,4 +2,5 @@
 <resources>
     <item name="user_image_view" type="id" />
     <item name="act_main_constraint" type="id">1</item>
+    <item name="button_save_video_file" type="id" />
 </resources>

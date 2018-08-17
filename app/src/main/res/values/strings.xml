@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Boomerang</string>
     <string name="menu_item_boomerang">Boomerang</string>
+    <string name="button_choose_video_file">Choose video file</string>
+    <string name="button_save_video_file">Save video file</string>
 </resources>
