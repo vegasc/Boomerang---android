@@ -1,6 +1,7 @@
 package com.kotlin.alekseyrobul.boomerang.fragments
 
 import android.content.Context
+import android.net.Uri
 import android.view.View
 import android.view.ViewManager
 import com.kotlin.alekseyrobul.boomerang.R
@@ -73,6 +74,12 @@ class BoomerangFragmentView(context: Context): View(context), AnkoComponent<Cont
         }
     }
 
+    /**
+     * Public funcs
+     */
+    fun displayVideo(uri: Uri) {
+        mVideoPlayer.playVideo(context, uri)
+    }
 }
 
 
