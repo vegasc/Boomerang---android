@@ -47,7 +47,7 @@ class BoomerangFragmentView(context: Context): View(context), AnkoComponent<Cont
                 val layout = constraintLayout()
 
                 mVideoPlayer = videoSurfaceView(context = context) {
-
+                    isLoop = true
                 }.lparams(height = 800) {
                     topToTop = layout.top
                     leftToLeft = layout.left

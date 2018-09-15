@@ -23,6 +23,11 @@ inline fun ViewManager.videoSurfaceView(context: Context, init: (@AnkoViewDslMar
 
 class VideoPlayer(context: Context): SurfaceView(context), AnkoComponent<Context> {
     /**
+     * Public fields
+     */
+    var isLoop = false
+
+    /**
      * Private fields
      */
     private val mPlayer = BoomMediaPlayer()
@@ -35,8 +40,10 @@ class VideoPlayer(context: Context): SurfaceView(context), AnkoComponent<Context
         mp.start()
     }
 
-    private val mPlayerComplitionListener = MediaPlayer.OnCompletionListener {
-        print("completed")
+    private val mPlayerCompletionListener = MediaPlayer.OnCompletionListener {
+        if (isLoop) {
+            mPlayer.start()
+        }
     }
 
     private val mPlayerErrorListener = MediaPlayer.OnErrorListener { mp, what, extra ->
@@ -68,16 +75,12 @@ class VideoPlayer(context: Context): SurfaceView(context), AnkoComponent<Context
         super.onAttachedToWindow()
         holder.addCallback(mSurfaceListener)
         mPlayer.setOnPreparedListener(mPlayerPrepareListener)
-        mPlayer.setOnCompletionListener(mPlayerComplitionListener)
+        mPlayer.setOnCompletionListener(mPlayerCompletionListener)
         mPlayer.setOnErrorListener(mPlayerErrorListener)
     }
 
     override fun createView(ui: AnkoContext<Context>): View {
         return with(ui) { constraintLayout() }
-    }
-
-    fun playVideo(path:String) {
-        mPlayer.setDataSource(path)
     }
 
     fun playVideo(context: Context, uri: Uri) {

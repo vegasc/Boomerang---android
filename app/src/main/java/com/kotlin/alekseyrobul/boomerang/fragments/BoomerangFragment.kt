@@ -3,13 +3,13 @@ package com.kotlin.alekseyrobul.boomerang.fragments
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.os.Environment
 import android.view.View
+import com.kotlin.alekseyrobul.boomerang.classes.BoomerangEffect
 import com.kotlin.alekseyrobul.boomerang.helpers.BaseFragment
 import com.kotlin.alekseyrobul.boomerang.helpers.PermissionHelper
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.support.v4.UI
-import java.io.File
+import java.net.URI
 
 class BoomerangFragment: BaseFragment() {
 
@@ -85,7 +85,8 @@ class BoomerangFragment: BaseFragment() {
     private fun displayVideoFrom(intent: Intent?) {
         if (intent == null) { return }
         if (context == null) { return }
-        mView.displayVideo(intent!!.data)
+//        mView.displayVideo(intent!!.data)
+        BoomerangEffect.getBoomerangFrom(context!!, intent!!.data)
     }
 }
 
