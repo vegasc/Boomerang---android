@@ -10,6 +10,7 @@ import com.kotlin.alekseyrobul.boomerang.views.videoSurfaceView
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.custom.ankoView
+import java.net.URI
 
 /**
  * Extensions

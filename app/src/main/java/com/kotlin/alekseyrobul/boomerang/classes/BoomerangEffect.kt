@@ -3,32 +3,34 @@ package com.kotlin.alekseyrobul.boomerang.classes
 import android.content.Context
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
-import android.media.MediaMetadataRetriever.OPTION_NEXT_SYNC
 import android.net.Uri
 import android.os.Environment
 import com.kotlin.alekseyrobul.boomerang.App
 import org.jcodec.api.SequenceEncoder
-import org.jcodec.common.model.ColorSpace
 import org.jcodec.scale.BitmapUtil
-import java.io.ByteArrayOutputStream
 import java.io.File
 
 class BoomerangEffect {
+
     companion object {
         @JvmStatic
-        fun getBoomerangFrom(context: Context, uri: Uri) {
+        fun getBoomerangFrom(context: Context, uri: Uri, result:(Uri?) -> Unit) {
             // get images
             val media = MediaMetadataRetriever()
             media.setDataSource(context, uri)
 
             var imgs = arrayListOf<Bitmap>()
-            var i:Long = 0
-            while (i < 100) {
-                val img = media.getFrameAtTime(i, OPTION_NEXT_SYNC)
+            var i:Long = 1000000 // frame time in milliseconds
+            var seconds = 0
+            while (seconds < 6) {
+                val img = media.getFrameAtTime(i)
                 imgs.add(img)
-                i++
+                i += 1000000
+                seconds++
             }
-            println(imgs)
+
+            // reverse images
+            imgs.addAll(imgs.reversed())
 
             // create file
             val folderName = Environment.getExternalStorageDirectory().absolutePath  + File.separator +
@@ -38,17 +40,18 @@ class BoomerangEffect {
 
             val movieFile = File(folderFile.absolutePath + File.separator + "boom_movie.mp4")
             // convert into video
-            val encoder = SequenceEncoder.createSequenceEncoder(movieFile, 20)
+            val encoder = SequenceEncoder.createSequenceEncoder(movieFile, 15)
             for (img in imgs) {
                 // create movie from 'Picture'
                 encoder.encodeNativeFrame(BitmapUtil.fromBitmap(img))
             }
             encoder.finish()
-        }
 
-        @JvmStatic
-        private  fun getImagesArray(uri: Uri) {
-
+            if (movieFile.exists()) {
+                result(Uri.parse(movieFile.toURI().toString()))
+            } else {
+                result(null)
+            }
         }
     }
 }
