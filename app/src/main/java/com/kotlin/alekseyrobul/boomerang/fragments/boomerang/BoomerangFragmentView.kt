@@ -1,4 +1,4 @@
-package com.kotlin.alekseyrobul.boomerang.fragments
+package com.kotlin.alekseyrobul.boomerang.fragments.boomerang
 
 import android.content.Context
 import android.net.Uri
@@ -10,7 +10,6 @@ import com.kotlin.alekseyrobul.boomerang.views.videoSurfaceView
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.custom.ankoView
-import java.net.URI
 
 /**
  * Extensions
@@ -33,7 +32,7 @@ class BoomerangFragmentView(context: Context): View(context), AnkoComponent<Cont
     /**
      * Public fields
      */
-    var viewListener:BoomerangFragmentViewListener? = null
+    var viewListener: BoomerangFragmentViewListener? = null
 
     /**
      * Private fields

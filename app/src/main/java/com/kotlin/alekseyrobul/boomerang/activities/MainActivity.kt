@@ -1,10 +1,10 @@
 package com.kotlin.alekseyrobul.boomerang.activities
 
-import android.app.Fragment
 import android.view.Menu
+import android.view.MenuItem
 import com.kotlin.alekseyrobul.boomerang.R
-import com.kotlin.alekseyrobul.boomerang.fragments.BoomerangFragment
-import com.kotlin.alekseyrobul.boomerang.fragments.boomerangView
+import com.kotlin.alekseyrobul.boomerang.fragments.boomerang.BoomerangFragment
+import com.kotlin.alekseyrobul.boomerang.fragments.gif.GifFragment
 import com.kotlin.alekseyrobul.boomerang.helpers.BaseActivity
 import org.jetbrains.anko.constraint.layout.constraintLayout
 
@@ -17,11 +17,27 @@ class MainActivity : BaseActivity() {
         return true
     }
 
-    override fun setupUI() {
-        activeFragment = BoomerangFragment()
-        constraintLayout {
-            id = R.id.act_main_constraint
-            supportFragmentManager.beginTransaction().replace(R.id.act_main_constraint, activeFragment).commit()
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item == null) { return false }
+        when(item.itemId) {
+            R.id.menu_item_boomerang -> { showBoomerang() }
+            R.id.menu_item_gif       -> { showGif() }
         }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showBoomerang() {
+        activeFragment = BoomerangFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.act_main_constraint, activeFragment).commit()
+    }
+
+    private fun showGif() {
+        activeFragment = GifFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.act_main_constraint, activeFragment).commit()
+    }
+
+    override fun setupUI() {
+        constraintLayout { id = R.id.act_main_constraint }
+        showBoomerang()
     }
 }

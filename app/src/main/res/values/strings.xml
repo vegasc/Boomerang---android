@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Boomerang</string>
     <string name="menu_item_boomerang">Boomerang</string>
+    <string name="menu_item_gif">Gif</string>
     <string name="button_choose_video_file">Choose video file</string>
     <string name="button_save_video_file">Save video file</string>
+    <string name="button_save_gif_file">Save gif file</string>
     <string name="boomerang_has_been_saved">Boomerang has been saved</string>
 </resources>
