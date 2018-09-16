@@ -4,13 +4,22 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.View
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
+import com.kotlin.alekseyrobul.boomerang.R
 import com.kotlin.alekseyrobul.boomerang.classes.BoomerangEffect
 import com.kotlin.alekseyrobul.boomerang.helpers.BaseFragment
 import com.kotlin.alekseyrobul.boomerang.helpers.PermissionHelper
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.support.v4.UI
+import java.io.File
 import java.net.URI
+import java.nio.file.CopyOption
+import java.nio.file.Files
+import java.nio.file.Paths
 
 class BoomerangFragment: BaseFragment() {
 
@@ -25,11 +34,12 @@ class BoomerangFragment: BaseFragment() {
     private lateinit var mView:BoomerangFragmentView
 
     private var mViewListener = object : BoomerangFragmentViewListener {
-        override fun buttonTappedChooseVideoFile() {
-            getVideoFromLibrary()
-        }
+        override fun buttonTappedChooseVideoFile() { getVideoFromLibrary() }
 
+        override fun buttonTappedSaveVideo() { saveVideo() }
     }
+
+    private var mVideoUri:Uri? = null
 
     /**
      * Override funcs
@@ -83,12 +93,28 @@ class BoomerangFragment: BaseFragment() {
         startActivityForResult(intent, GET_VIDEO_REQUEST)
     }
 
+    private fun saveVideo() {
+        if (context == null) { return }
+
+        // get video from hidden folder and save to media storage
+        if (mVideoUri != null) {
+            val videoFile = File(URI.create(mVideoUri.toString()))
+            if (videoFile.exists()) {
+                val videoDirectory = File(context!!.getExternalFilesDir(Environment.DIRECTORY_MOVIES).absolutePath + "/boomerang.mp4")
+                videoFile.copyTo(videoDirectory, true, DEFAULT_BUFFER_SIZE)
+//                context!!.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(videoDirectory)))
+                context!!.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(videoFile)))
+                Toast.makeText(context!!, context!!.getText(R.string.boomerang_has_been_saved), LENGTH_SHORT).show()
+            }
+        }
+    }
+
     private fun displayVideoFrom(intent: Intent?) {
         if (intent == null) { return }
         if (context == null) { return }
-//        mView.displayVideo(intent!!.data)
         BoomerangEffect.getBoomerangFrom(context!!, intent!!.data, { uri ->
             if (uri != null) {
+                mVideoUri = uri
                 mView.displayVideo(uri)
             }
         })

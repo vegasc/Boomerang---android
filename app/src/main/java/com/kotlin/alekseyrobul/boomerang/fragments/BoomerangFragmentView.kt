@@ -26,6 +26,7 @@ inline fun ViewManager.boomerangView(theme: Int = 0, context: Context, init: Boo
  */
 interface BoomerangFragmentViewListener {
     fun buttonTappedChooseVideoFile()
+    fun buttonTappedSaveVideo()
 }
 
 class BoomerangFragmentView(context: Context): View(context), AnkoComponent<Context> {
@@ -57,6 +58,7 @@ class BoomerangFragmentView(context: Context): View(context), AnkoComponent<Cont
 
                 button(text = R.string.button_save_video_file) {
                     id = R.id.button_save_video_file
+                    setOnClickListener { viewListener?.buttonTappedSaveVideo() }
                 }.lparams {
                     bottomToBottom = layout.bottom
                     leftToLeft = layout.left

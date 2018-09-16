@@ -40,7 +40,7 @@ class BoomerangEffect {
 
             val movieFile = File(folderFile.absolutePath + File.separator + "boom_movie.mp4")
             // convert into video
-            val encoder = SequenceEncoder.createSequenceEncoder(movieFile, 15)
+            val encoder = SequenceEncoder.createSequenceEncoder(movieFile, 10)
             for (img in imgs) {
                 // create movie from 'Picture'
                 encoder.encodeNativeFrame(BitmapUtil.fromBitmap(img))
