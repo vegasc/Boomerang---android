@@ -5,6 +5,7 @@ import android.net.Uri
 import android.view.View
 import android.view.ViewManager
 import com.kotlin.alekseyrobul.boomerang.R
+import com.kotlin.alekseyrobul.boomerang.fragments.gif.GifFragmentViewListener
 import com.kotlin.alekseyrobul.boomerang.views.VideoPlayer
 import com.kotlin.alekseyrobul.boomerang.views.videoSurfaceView
 import org.jetbrains.anko.*
