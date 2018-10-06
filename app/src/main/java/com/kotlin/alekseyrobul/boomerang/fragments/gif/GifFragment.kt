@@ -3,6 +3,7 @@ package com.kotlin.alekseyrobul.boomerang.fragments.gif
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.view.View
 import com.kotlin.alekseyrobul.boomerang.R
 import com.kotlin.alekseyrobul.boomerang.classes.GifEffect
@@ -92,9 +93,14 @@ class GifFragment: BaseFragment() {
         startActivityForResult(intent, GifFragment.GET_VIDEO_REQUEST)
     }
 
+    private fun displayGif(uri:Uri?) {
+        if (uri == null) { return }
+
+    }
+
     private fun convertVideoToGif(intent: Intent?) {
         if (intent == null) { return }
         if (context == null) { return }
-        GifEffect.gifFromVideo(context!!, intent!!.data)
+        GifEffect.gifFromVideo(context!!, intent!!.data, result = {uri -> displayGif(uri) })
     }
 }

@@ -6,6 +6,7 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Environment
 import com.kotlin.alekseyrobul.boomerang.App
+import com.kotlin.alekseyrobul.boomerang.helpers.FileUtilitty
 import org.jcodec.api.SequenceEncoder
 import org.jcodec.scale.BitmapUtil
 import java.io.File
@@ -31,12 +32,7 @@ class BoomerangEffect {
 
             // reverse images
             imgs.addAll(imgs.reversed())
-
-            // create file
-            val folderName = Environment.getExternalStorageDirectory().absolutePath  + File.separator +
-                    "." + App.getAppName(context) + File.separator + "boomfile"
-            val folderFile = File(folderName)
-            folderFile.mkdirs()
+            val folderFile = FileUtilitty.externalMediaFolder(context)
 
             val movieFile = File(folderFile.absolutePath + File.separator + "boom_movie.mp4")
             // convert into video
