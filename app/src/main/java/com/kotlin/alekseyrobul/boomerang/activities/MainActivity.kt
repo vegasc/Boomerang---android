@@ -27,11 +27,13 @@ class MainActivity : BaseActivity() {
     }
 
     private fun showBoomerang() {
+        setTitle(R.string.menu_item_boomerang)
         activeFragment = BoomerangFragment()
         supportFragmentManager.beginTransaction().replace(R.id.act_main_constraint, activeFragment).commit()
     }
 
     private fun showGif() {
+        setTitle(R.string.menu_item_gif)
         activeFragment = GifFragment()
         supportFragmentManager.beginTransaction().replace(R.id.act_main_constraint, activeFragment).commit()
     }

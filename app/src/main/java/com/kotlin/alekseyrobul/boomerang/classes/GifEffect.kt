@@ -35,7 +35,7 @@ class GifEffect {
             val byteArrayOutputStream = ByteArrayOutputStream()
             val gifEncoder = AnimatedGifEncoder()
             gifEncoder.start(byteArrayOutputStream)
-
+            gifEncoder.setRepeat(0)
             for (i in imgs) {
                 gifEncoder.addFrame(i)
             }

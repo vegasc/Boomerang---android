@@ -2,20 +2,23 @@ package com.kotlin.alekseyrobul.boomerang.fragments.gif
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.View
+import android.view.WindowManager
+import android.webkit.WebView
 import com.kotlin.alekseyrobul.boomerang.R
 import com.kotlin.alekseyrobul.boomerang.classes.GifEffect
 import com.kotlin.alekseyrobul.boomerang.fragments.boomerang.BoomerangFragment
 import com.kotlin.alekseyrobul.boomerang.helpers.BaseFragment
 import com.kotlin.alekseyrobul.boomerang.helpers.PermissionHelper
-import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.button
+import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.imageView
 import org.jetbrains.anko.support.v4.UI
+import java.io.File
+import java.net.URI
+import java.net.URL
 
 class GifFragment: BaseFragment() {
 
@@ -24,12 +27,14 @@ class GifFragment: BaseFragment() {
         val GET_VIDEO_REQUEST = 101
     }
 
+    private lateinit var mWebView: WebView
+
     override fun updateUI(): View {
         return UI {
             constraintLayout {
                 val layout = constraintLayout()
 
-                imageView {
+                mWebView = webView {
                     id = R.id.gif_fragment_image_view
                     backgroundColor = context!!.getColor(R.color.colorGray)
                 }.lparams (width = 800, height = 800) {
@@ -69,6 +74,11 @@ class GifFragment: BaseFragment() {
         }
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        mWebView.clearCache(true)
+    }
+
     /**
      * Private funcs
      */
@@ -94,8 +104,17 @@ class GifFragment: BaseFragment() {
     }
 
     private fun displayGif(uri:Uri?) {
+        if (context == null) { return }
         if (uri == null) { return }
 
+        val display = (context!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
+        val width = display.width
+        var v = width.toDouble() / mWebView.width.toDouble()
+        v *= 100
+
+        mWebView.loadUrl(uri.toString())
+        mWebView.setPadding(0,0,0,0)
+        mWebView.setInitialScale(v.toInt())
     }
 
     private fun convertVideoToGif(intent: Intent?) {
