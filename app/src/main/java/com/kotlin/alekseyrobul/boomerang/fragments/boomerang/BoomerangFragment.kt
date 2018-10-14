@@ -13,7 +13,9 @@ import com.kotlin.alekseyrobul.boomerang.classes.BoomerangEffect
 import com.kotlin.alekseyrobul.boomerang.helpers.BaseFragment
 import com.kotlin.alekseyrobul.boomerang.helpers.PermissionHelper
 import com.kotlin.alekseyrobul.boomerang.views.VideoPlayer
+import com.kotlin.alekseyrobul.boomerang.views.boomButton
 import com.kotlin.alekseyrobul.boomerang.views.videoSurfaceView
+import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.button
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.dip
@@ -39,10 +41,11 @@ class BoomerangFragment: BaseFragment() {
      */
     override fun updateUI(): View {
         return UI {
+            val context = context
             constraintLayout {
                 val layout = constraintLayout()
-
-                mVideoPlayer = videoSurfaceView(context = context) {
+                layout.backgroundColor = resources.getColor(R.color.colorPrimaryDark, context!!.theme)
+                mVideoPlayer = videoSurfaceView(context = context!!) {
                     isLoop = true
                 }.lparams(height = 800) {
                     topToTop = layout.top
@@ -50,22 +53,27 @@ class BoomerangFragment: BaseFragment() {
                     rightToRight = layout.right
                 }
 
-                button(text = R.string.button_save_video_file) {
+                boomButton(context) {
                     id = R.id.button_save_video_file
+                    text = resources.getString(R.string.button_save_video_file)
                     setOnClickListener { saveVideo() }
                 }.lparams {
                     bottomToBottom = layout.bottom
                     leftToLeft = layout.left
                     rightToRight = layout.right
                     bottomMargin = dip(16)
+                    rightMargin = dip(200)
                 }
 
-                button(text = R.string.button_choose_video_file) {
+                boomButton(context) {
+                    text = resources.getString(R.string.button_choose_video_file)
                     setOnClickListener { getVideoFromLibrary() }
                 }.lparams {
-                    bottomToTop = R.id.button_save_video_file
+                    bottomToBottom = layout.bottom
                     leftToLeft = layout.left
                     rightToRight = layout.right
+                    bottomMargin = dip(16)
+                    leftMargin = dip(200)
                 }
             }
         }.view

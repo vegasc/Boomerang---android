@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.view.View
 import android.view.WindowManager
@@ -13,12 +14,11 @@ import com.kotlin.alekseyrobul.boomerang.classes.GifEffect
 import com.kotlin.alekseyrobul.boomerang.fragments.boomerang.BoomerangFragment
 import com.kotlin.alekseyrobul.boomerang.helpers.BaseFragment
 import com.kotlin.alekseyrobul.boomerang.helpers.PermissionHelper
+import com.kotlin.alekseyrobul.boomerang.views.boomButton
+import com.kotlin.alekseyrobul.boomerang.views.progressView
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.support.v4.UI
-import java.io.File
-import java.net.URI
-import java.net.URL
 
 class GifFragment: BaseFragment() {
 
@@ -33,10 +33,12 @@ class GifFragment: BaseFragment() {
         return UI {
             constraintLayout {
                 val layout = constraintLayout()
+                layout.backgroundColor = resources.getColor(R.color.colorPrimaryDark, context.theme)
 
                 mWebView = webView {
                     id = R.id.gif_fragment_image_view
-                    backgroundColor = context!!.getColor(R.color.colorGray)
+                    setBackgroundColor(0x00000000)
+                    setBackgroundResource(R.drawable.web_view_rounded)
                 }.lparams (width = 800, height = 800) {
                     topToTop = layout.top
                     leftToLeft = layout.left
@@ -44,23 +46,45 @@ class GifFragment: BaseFragment() {
                     topMargin = dip(50)
                 }
 
-                button(text = R.string.button_save_gif_file) {
+                boomButton(context = context) {
                     id = R.id.button_save_gif_file
+                    text = resources.getString(R.string.button_save_gif_file)
                     setOnClickListener {  }
                 }.lparams {
                     bottomToBottom = layout.bottom
                     leftToLeft = layout.left
                     rightToRight = layout.right
                     bottomMargin = dip(16)
+                    rightMargin = dip(200)
                 }
 
-                button(text = R.string.button_choose_video_file) {
+                boomButton(context = context) {
+                    text = resources.getString(R.string.button_choose_video_file)
                     setOnClickListener { getVideoFromLibrary() }
                 }.lparams {
-                    bottomToTop = R.id.button_save_gif_file
+                    bottomToBottom = layout.bottom
+                    leftToLeft = layout.left
+                    rightToRight = layout.right
+                    bottomMargin = dip(16)
+                    leftMargin = dip(200)
+                }
+
+                progressView(context = context) {
+
+                }.lparams {
+                    topToTop = layout.top
+                    bottomToBottom = layout.bottom
                     leftToLeft = layout.left
                     rightToRight = layout.right
                 }
+//                progressView(context) {
+//
+//                }.lparams {
+//                    topToTop = layout.top
+//                    bottomToBottom = layout.bottom
+//                    leftToLeft = layout.left
+//                    rightToRight = layout.right
+//                }
             }
         }.view
     }
@@ -120,6 +144,9 @@ class GifFragment: BaseFragment() {
     private fun convertVideoToGif(intent: Intent?) {
         if (intent == null) { return }
         if (context == null) { return }
-        GifEffect.gifFromVideo(context!!, intent!!.data, result = {uri -> displayGif(uri) })
+
+        GifEffect.gifFromVideo(context!!, intent!!.data, result = {uri ->
+            displayGif(uri)
+        })
     }
 }
