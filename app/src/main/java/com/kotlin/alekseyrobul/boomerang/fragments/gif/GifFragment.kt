@@ -4,8 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
+import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.webkit.WebView
@@ -14,6 +14,7 @@ import com.kotlin.alekseyrobul.boomerang.classes.GifEffect
 import com.kotlin.alekseyrobul.boomerang.fragments.boomerang.BoomerangFragment
 import com.kotlin.alekseyrobul.boomerang.helpers.BaseFragment
 import com.kotlin.alekseyrobul.boomerang.helpers.PermissionHelper
+import com.kotlin.alekseyrobul.boomerang.views.ProgressView
 import com.kotlin.alekseyrobul.boomerang.views.boomButton
 import com.kotlin.alekseyrobul.boomerang.views.progressView
 import org.jetbrains.anko.*
@@ -28,6 +29,7 @@ class GifFragment: BaseFragment() {
     }
 
     private lateinit var mWebView: WebView
+    private lateinit var mProgressView: ProgressView
 
     override fun updateUI(): View {
         return UI {
@@ -69,7 +71,7 @@ class GifFragment: BaseFragment() {
                     leftMargin = dip(200)
                 }
 
-                progressView(context = context) {
+                mProgressView = progressView(context = context) {
 
                 }.lparams {
                     topToTop = layout.top
@@ -77,14 +79,6 @@ class GifFragment: BaseFragment() {
                     leftToLeft = layout.left
                     rightToRight = layout.right
                 }
-//                progressView(context) {
-//
-//                }.lparams {
-//                    topToTop = layout.top
-//                    bottomToBottom = layout.bottom
-//                    leftToLeft = layout.left
-//                    rightToRight = layout.right
-//                }
             }
         }.view
     }
@@ -95,6 +89,8 @@ class GifFragment: BaseFragment() {
             if (requestCode == BoomerangFragment.GET_VIDEO_REQUEST) {
                 convertVideoToGif(data)
             }
+        } else {
+            mProgressView.visibility = View.INVISIBLE
         }
     }
 
@@ -120,6 +116,8 @@ class GifFragment: BaseFragment() {
             return
         }
 
+        mProgressView.visibility = View.VISIBLE
+
         // show library activity
         val intent = Intent()
         intent.type = "video/*"
@@ -139,6 +137,7 @@ class GifFragment: BaseFragment() {
         mWebView.loadUrl(uri.toString())
         mWebView.setPadding(0,0,0,0)
         mWebView.setInitialScale(v.toInt())
+        mProgressView.visibility = View.INVISIBLE
     }
 
     private fun convertVideoToGif(intent: Intent?) {
