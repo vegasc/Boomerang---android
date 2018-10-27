@@ -41,6 +41,7 @@ class GifFragment: BaseFragment() {
                     id = R.id.gif_fragment_image_view
                     setBackgroundColor(0x00000000)
                     setBackgroundResource(R.drawable.web_view_rounded)
+                    elevation = 1.0f
                 }.lparams (width = 800, height = 800) {
                     topToTop = layout.top
                     leftToLeft = layout.left
@@ -52,6 +53,7 @@ class GifFragment: BaseFragment() {
                     id = R.id.button_save_gif_file
                     text = resources.getString(R.string.button_save_gif_file)
                     setOnClickListener {  }
+                    elevation = 1.0f
                 }.lparams {
                     bottomToBottom = layout.bottom
                     leftToLeft = layout.left
@@ -71,8 +73,9 @@ class GifFragment: BaseFragment() {
                     leftMargin = dip(200)
                 }
 
-                mProgressView = progressView(context = context) {
-
+                progressView(context = context) { v ->
+                    elevation = 16.0f
+                    mProgressView = v
                 }.lparams {
                     topToTop = layout.top
                     bottomToBottom = layout.bottom
@@ -90,7 +93,7 @@ class GifFragment: BaseFragment() {
                 convertVideoToGif(data)
             }
         } else {
-            mProgressView.visibility = View.INVISIBLE
+//            mProgressView.visibility = View.INVISIBLE
         }
     }
 
@@ -116,7 +119,7 @@ class GifFragment: BaseFragment() {
             return
         }
 
-        mProgressView.visibility = View.VISIBLE
+//        mProgressView.visibility = View.VISIBLE
 
         // show library activity
         val intent = Intent()
@@ -137,7 +140,7 @@ class GifFragment: BaseFragment() {
         mWebView.loadUrl(uri.toString())
         mWebView.setPadding(0,0,0,0)
         mWebView.setInitialScale(v.toInt())
-        mProgressView.visibility = View.INVISIBLE
+//        mProgressView.visibility = View.INVISIBLE
     }
 
     private fun convertVideoToGif(intent: Intent?) {
