@@ -14,11 +14,13 @@ import com.kotlin.alekseyrobul.boomerang.helpers.BaseFragment
 import com.kotlin.alekseyrobul.boomerang.helpers.PermissionHelper
 import com.kotlin.alekseyrobul.boomerang.views.VideoPlayer
 import com.kotlin.alekseyrobul.boomerang.views.boomButton
+import com.kotlin.alekseyrobul.boomerang.views.progressView
 import com.kotlin.alekseyrobul.boomerang.views.videoSurfaceView
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.support.v4.UI
+import org.jetbrains.anko.support.v4.onUiThread
 import java.io.File
 import java.net.URI
 
@@ -34,6 +36,7 @@ class BoomerangFragment: BaseFragment() {
      */
     private lateinit var mVideoPlayer: VideoPlayer
     private var mVideoUri:Uri? = null
+    private lateinit var mProgressView: View
 
     /**
      * Override funcs
@@ -74,6 +77,16 @@ class BoomerangFragment: BaseFragment() {
                     bottomMargin = dip(16)
                     leftMargin = dip(200)
                 }
+
+                mProgressView = progressView(context = context) {
+                    elevation = 16.0f
+                }.lparams {
+                    topToTop = layout.top
+                    bottomToBottom = layout.bottom
+                    leftToLeft = layout.left
+                    rightToRight = layout.right
+                }
+                mProgressView.visibility = View.INVISIBLE
             }
         }.view
     }
@@ -129,7 +142,9 @@ class BoomerangFragment: BaseFragment() {
     private fun displayVideoFrom(intent: Intent?) {
         if (intent == null) { return }
         if (context == null) { return }
+        mProgressView.visibility = View.VISIBLE
         BoomerangEffect.getBoomerangFrom(context!!, intent!!.data, { uri ->
+            mProgressView.visibility = View.INVISIBLE
             if (uri != null) {
                 mVideoUri = uri
                 mVideoPlayer.playVideo(context!!, uri)

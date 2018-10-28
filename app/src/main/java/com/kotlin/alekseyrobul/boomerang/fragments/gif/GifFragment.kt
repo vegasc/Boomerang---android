@@ -92,8 +92,6 @@ class GifFragment: BaseFragment() {
             if (requestCode == BoomerangFragment.GET_VIDEO_REQUEST) {
                 convertVideoToGif(data)
             }
-        } else {
-            mProgressView.visibility = View.INVISIBLE
         }
     }
 

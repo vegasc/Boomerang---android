@@ -60,13 +60,15 @@ class VideoPlayer(context: Context): SurfaceView(context), AnkoComponent<Context
         override fun surfaceDestroyed(holder: SurfaceHolder?) {
             if (mPlayer.isPlaying) {
                 mPlayer.stop()
+                mPlayer.setDisplay(null)
             }
         }
 
         override fun surfaceCreated(holder: SurfaceHolder?) {
             mPlayer.setDisplay(mHolder)
+            mPlayer.setOnPreparedListener(mPlayerPrepareListener)
             if (mPlayer.getDatapath != null) {
-                mPlayer.prepare()
+                mPlayer.prepareAsync()
             }
         }
     }
