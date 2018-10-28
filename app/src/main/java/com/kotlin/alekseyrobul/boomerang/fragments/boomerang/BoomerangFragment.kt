@@ -16,7 +16,6 @@ import com.kotlin.alekseyrobul.boomerang.views.VideoPlayer
 import com.kotlin.alekseyrobul.boomerang.views.boomButton
 import com.kotlin.alekseyrobul.boomerang.views.videoSurfaceView
 import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.button
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.support.v4.UI

@@ -29,7 +29,7 @@ class GifFragment: BaseFragment() {
     }
 
     private lateinit var mWebView: WebView
-    private lateinit var mProgressView: ProgressView
+    private lateinit var mProgressView: View
 
     override fun updateUI(): View {
         return UI {
@@ -73,15 +73,15 @@ class GifFragment: BaseFragment() {
                     leftMargin = dip(200)
                 }
 
-                progressView(context = context) { v ->
+                mProgressView = progressView(context = context) {
                     elevation = 16.0f
-                    mProgressView = v
                 }.lparams {
                     topToTop = layout.top
                     bottomToBottom = layout.bottom
                     leftToLeft = layout.left
                     rightToRight = layout.right
                 }
+                mProgressView.visibility = View.INVISIBLE
             }
         }.view
     }
@@ -93,7 +93,7 @@ class GifFragment: BaseFragment() {
                 convertVideoToGif(data)
             }
         } else {
-//            mProgressView.visibility = View.INVISIBLE
+            mProgressView.visibility = View.INVISIBLE
         }
     }
 
@@ -119,8 +119,6 @@ class GifFragment: BaseFragment() {
             return
         }
 
-//        mProgressView.visibility = View.VISIBLE
-
         // show library activity
         val intent = Intent()
         intent.type = "video/*"
@@ -140,14 +138,15 @@ class GifFragment: BaseFragment() {
         mWebView.loadUrl(uri.toString())
         mWebView.setPadding(0,0,0,0)
         mWebView.setInitialScale(v.toInt())
-//        mProgressView.visibility = View.INVISIBLE
     }
 
     private fun convertVideoToGif(intent: Intent?) {
         if (intent == null) { return }
         if (context == null) { return }
 
+        mProgressView.visibility = View.VISIBLE
         GifEffect.gifFromVideo(context!!, intent!!.data, result = {uri ->
+            mProgressView.visibility = View.INVISIBLE
             displayGif(uri)
         })
     }

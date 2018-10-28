@@ -15,13 +15,9 @@ inline fun ViewManager.progressView(context: Context, theme: Int = 0,
     return ankoView({ pview.createView(AnkoContext.create(it)) }, theme, { init(pview) })
 }
 
-
 class ProgressView(context: Context): View(context), AnkoComponent<Context> {
 
-    private lateinit var ankoContext: AnkoContext<Context>
-
     override fun createView(ui: AnkoContext<Context>): View = with(ui) {
-        ankoContext = ui
         constraintLayout {
             val layout = constraintLayout()
             view {
