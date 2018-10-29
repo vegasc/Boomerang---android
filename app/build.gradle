@@ -10,7 +10,7 @@ ext.anko_version='0.10.5'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.kotlin.alekseyrobul.englishquiz"
+        applicationId "com.alekseyrobul.boomerang"
         minSdkVersion 23
         targetSdkVersion 27
         versionCode 1
