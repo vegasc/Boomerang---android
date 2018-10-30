@@ -24,6 +24,12 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <service
+            android:enabled="true"
+            android:name=".services.ExitService"
+            android:exported="false"
+            android:stopWithTask="false" />
+
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
