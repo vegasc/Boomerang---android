@@ -10,6 +10,7 @@ import android.support.v4.content.FileProvider
 import android.view.View
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
+import com.alekseyrobul.boomerang.BuildConfig
 import com.alekseyrobul.boomerang.R
 import com.alekseyrobul.boomerang.classes.BoomerangEffect
 import com.alekseyrobul.boomerang.helpers.BaseFragment
@@ -126,17 +127,6 @@ class BoomerangFragment: BaseFragment() {
     }
 
     private fun saveVideo() {
-        // get video from hidden folder and save to media storage
-//        if (mVideoUri != null) {
-//            val videoFile = File(URI.create(mVideoUri.toString()))
-//            if (videoFile.exists()) {
-//                val videoDirectory = File(context!!.getExternalFilesDir(Environment.DIRECTORY_MOVIES).absolutePath + "/boomerang.mp4")
-//                videoFile.copyTo(videoDirectory, true, DEFAULT_BUFFER_SIZE)
-//                context!!.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(videoFile.absoluteFile)))
-//                Toast.makeText(context!!, context!!.getText(R.string.boomerang_has_been_saved), LENGTH_SHORT).show()
-//            }
-//        }
-
         val videoFile = File(URI.create(mVideoUri.toString()))
         println(Uri.parse(mVideoUri.toString()))
         if (context == null) { return }
@@ -148,7 +138,7 @@ class BoomerangFragment: BaseFragment() {
         values.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4")
         values.put(MediaStore.Video.Media.DATA, videoFile.absolutePath)
 
-        val uri = FileProvider.getUriForFile(context!!, "com.alekseyrobul.boomerang", videoFile)
+        val uri = FileProvider.getUriForFile(context!!, BuildConfig.APPLICATION_ID, videoFile)
         if (uri == null) {
             Toast.makeText(context!!, context!!.getText(R.string.error_saving_file), LENGTH_SHORT).show()
             return

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<files-path name="internal"  path=".Boomerang"/>-->
+<!--<paths>-->
+<!--<external-path name=".Boomerang" path="." />-->
+<!--</paths>-->
+
 <paths>
-<external-path name=".Boomerang" path="." />
+    <external-path name="/" path="." />
 </paths>
