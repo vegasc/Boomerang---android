@@ -32,12 +32,14 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.51"
     implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation "com.android.support:recyclerview-v7:27.1.1"
 
     implementation "org.jetbrains.anko:anko-sdk23:$anko_version"
     implementation "org.jetbrains.anko:anko-support-v4:$anko_version"
     implementation "org.jetbrains.anko:anko-coroutines:$anko_version"
     implementation "org.jetbrains.anko:anko-constraint-layout:$anko_version"
     implementation "com.android.support.constraint:constraint-layout:1.1.2"
+    implementation "org.jetbrains.anko:anko-recyclerview-v7:0.10.5"
     implementation 'org.jcodec:jcodec:0.2.3'
     implementation 'org.jcodec:jcodec-android:0.2.3'
     implementation 'com.github.bumptech.glide:glide:4.8.0'

@@ -12,10 +12,10 @@ class App: Application() {
         fun getAppName(context: Context):String {
             val info = context.applicationInfo
             val stringId = info.labelRes
-            if (stringId == 0) {
-                return info.nonLocalizedLabel.toString()
+            return if (stringId == 0) {
+                info.nonLocalizedLabel.toString()
             } else {
-                return context.getString(stringId)
+                context.getString(stringId)
             }
         }
     }

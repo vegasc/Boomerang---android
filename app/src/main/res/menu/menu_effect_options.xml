@@ -8,4 +8,7 @@
     <item
         android:id="@+id/menu_item_gif"
         android:title="@string/menu_item_gif" />
+    <item
+        android:id="@+id/menu_item_images"
+        android:title="@string/menu_images" />
 </menu>
