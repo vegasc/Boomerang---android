@@ -6,4 +6,5 @@
     <item name="gif_fragment_image_view" type="id" />
     <item name="button_save_gif_file" type="id" />
     <item name="fragment_image_visible_image_view" type="id" />
+    <item name="image_pick_item_image_view" type="id" />
 </resources>

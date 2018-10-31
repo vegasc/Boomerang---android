@@ -14,6 +14,7 @@ import com.alekseyrobul.boomerang.BuildConfig
 import com.alekseyrobul.boomerang.R
 import com.alekseyrobul.boomerang.classes.BoomerangEffect
 import com.alekseyrobul.boomerang.helpers.BaseFragment
+import com.alekseyrobul.boomerang.helpers.FileUtilitty
 import com.alekseyrobul.boomerang.helpers.PermissionHelper
 import com.alekseyrobul.boomerang.views.VideoPlayer
 import com.alekseyrobul.boomerang.views.boomButton
@@ -133,12 +134,17 @@ class BoomerangFragment: BaseFragment() {
         if (mVideoUri == null) { return }
         if (!videoFile.exists()) { return }
 
+        // move cached file to hidden directory
+        val copy = videoFile.copyTo(File(FileUtilitty.externalMediaFolder(context!!).absolutePath + "/" + "boom_movie.mp4"))
+
+        // prepare meta data
         val values = ContentValues(3)
         values.put(MediaStore.Video.Media.TITLE, "Boomerang")
         values.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4")
-        values.put(MediaStore.Video.Media.DATA, videoFile.absolutePath)
+        values.put(MediaStore.Video.Media.DATA, copy.absolutePath)
 
-        val uri = FileProvider.getUriForFile(context!!, BuildConfig.APPLICATION_ID, videoFile)
+        // insert file uri to files db
+        val uri = FileProvider.getUriForFile(context!!, BuildConfig.APPLICATION_ID, copy)
         if (uri == null) {
             Toast.makeText(context!!, context!!.getText(R.string.error_saving_file), LENGTH_SHORT).show()
             return

@@ -47,7 +47,7 @@ class GifEffect {
                 gifEncoder.finish()
                 val byteArray = byteArrayOutputStream.toByteArray()
 
-                val folderFile = FileUtilitty.externalMediaFolder(context)
+                val folderFile = FileUtilitty.cacheFolder(context)
                 val gifFile = File(folderFile.absolutePath + File.separator + "giff_effect.gif")
 
                 val outs = FileOutputStream(gifFile.absolutePath)

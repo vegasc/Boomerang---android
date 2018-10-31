@@ -20,9 +20,20 @@ class FileUtilitty {
             return folderFile
         }
 
+        /**
+         * Returns cache directory
+         */
         @JvmStatic
-        fun clearExternalMediaFolder(context: Context, completion:() -> Unit) {
-            val folderName = Environment.getExternalStorageDirectory().absolutePath  + File.separator +
+        fun cacheFolder(context: Context): File {
+            return context.cacheDir
+        }
+
+        /**
+         * Removes 'media' folder and all it's files content from cache storage
+         */
+        @JvmStatic
+        fun clearCacheFolder(context: Context, completion:() -> Unit) {
+            val folderName = cacheFolder(context).absolutePath  + File.separator +
                     "." + App.getAppName(context) + File.separator + "media"
             val folderFile = File(folderName)
             if (folderFile.exists()) {

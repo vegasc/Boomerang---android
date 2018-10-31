@@ -32,7 +32,7 @@ class BoomerangEffect {
 
                 // reverse images
                 imgs.addAll(imgs.reversed())
-                val folderFile = FileUtilitty.externalMediaFolder(context)
+                val folderFile = FileUtilitty.cacheFolder(context)
 
                 val movieFile = File(folderFile.absolutePath + File.separator + "boom_movie.mp4")
                 // convert into video

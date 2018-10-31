@@ -15,7 +15,7 @@ class ExitService: Service() {
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         super.onTaskRemoved(rootIntent)
-        FileUtilitty.clearExternalMediaFolder(context = baseContext, completion = {
+        FileUtilitty.clearCacheFolder(context = baseContext, completion = {
             stopSelf()
         })
     }
