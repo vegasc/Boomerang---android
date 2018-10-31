@@ -14,6 +14,7 @@ import com.alekseyrobul.boomerang.R
 import com.alekseyrobul.boomerang.classes.GifEffect
 import com.alekseyrobul.boomerang.fragments.boomerang.BoomerangFragment
 import com.alekseyrobul.boomerang.helpers.BaseFragment
+import com.alekseyrobul.boomerang.helpers.DateUtils
 import com.alekseyrobul.boomerang.helpers.FileUtilitty
 import com.alekseyrobul.boomerang.helpers.PermissionHelper
 import com.alekseyrobul.boomerang.views.boomButton
@@ -137,7 +138,8 @@ class GifFragment: BaseFragment() {
         if (mGifUri != null) {
             val videoFile = File(URI.create(mGifUri.toString()))
             if (videoFile.exists()) {
-                val videoDirectory = File(FileUtilitty.externalMediaFolder(context!!).absolutePath + "/" + "/giff_effect.gif")
+                val fileName = DateUtils.getCurrentDate() + "_" + "giff_effect.gif"
+                val videoDirectory = File(FileUtilitty.externalMediaFolder(context!!).absolutePath + "/" + fileName)
                 videoFile.copyTo(videoDirectory, true, DEFAULT_BUFFER_SIZE)
                 Toast.makeText(context!!, context!!.getText(R.string.gif_has_been_saved), Toast.LENGTH_SHORT).show()
             }

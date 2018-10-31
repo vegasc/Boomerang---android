@@ -14,6 +14,7 @@ import com.alekseyrobul.boomerang.BuildConfig
 import com.alekseyrobul.boomerang.R
 import com.alekseyrobul.boomerang.classes.BoomerangEffect
 import com.alekseyrobul.boomerang.helpers.BaseFragment
+import com.alekseyrobul.boomerang.helpers.DateUtils
 import com.alekseyrobul.boomerang.helpers.FileUtilitty
 import com.alekseyrobul.boomerang.helpers.PermissionHelper
 import com.alekseyrobul.boomerang.views.VideoPlayer
@@ -135,7 +136,8 @@ class BoomerangFragment: BaseFragment() {
         if (!videoFile.exists()) { return }
 
         // move cached file to hidden directory
-        val copy = videoFile.copyTo(File(FileUtilitty.externalMediaFolder(context!!).absolutePath + "/" + "boom_movie.mp4"))
+        val fileName = DateUtils.getCurrentDate() + "_" + "boom_movie.mp4"
+        val copy = videoFile.copyTo(File(FileUtilitty.externalMediaFolder(context!!).absolutePath + "/" + fileName))
 
         // prepare meta data
         val values = ContentValues(3)
