@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
 import android.view.View
@@ -33,13 +34,15 @@ class BoomerangFragment: BaseFragment() {
     companion object {
         @JvmStatic
         val GET_VIDEO_REQUEST = 101
+        @JvmStatic
+        var mVideoUri:Uri? = null
     }
 
     /**
      * Private fields
      */
     private lateinit var mVideoPlayer: VideoPlayer
-    private var mVideoUri:Uri? = null
+//    private var mVideoUri:Uri? = null
     private lateinit var mProgressView: View
 
     /**
@@ -101,6 +104,13 @@ class BoomerangFragment: BaseFragment() {
             if (requestCode == GET_VIDEO_REQUEST) {
                 displayVideoFrom(data)
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (mVideoUri != null && context != null) {
+            mVideoPlayer.playVideo(context!!, mVideoUri!!)
         }
     }
 

@@ -13,11 +13,10 @@ import com.alekseyrobul.boomerang.fragments.Images.recycler_view.ImagePick
 import com.alekseyrobul.boomerang.fragments.Images.recycler_view.ImagesAdapter
 import com.alekseyrobul.boomerang.helpers.BaseFragment
 import com.alekseyrobul.boomerang.views.boomButton
-import org.jetbrains.anko.backgroundColor
+import com.alekseyrobul.boomerang.views.videoCard
+import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.imageView
-import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.constraint.layout.guideline
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.UI
 
@@ -34,23 +33,26 @@ class ImagesFragment: BaseFragment() {
                 val layout = constraintLayout()
                 layout.backgroundColor = resources.getColor(R.color.colorPrimaryDark, context.theme)
 
-                mVisibleImageView = imageView {
-                    id = R.id.fragment_image_visible_image_view
-                    backgroundColor = R.color.colorGray
-                }.lparams(width = 800, height = 800) {
-                    topToTop = layout.top
-                    leftToLeft = layout.left
-                    rightToRight = layout.right
-                    topMargin = dip(50)
+                val g= guideline {
+                    id = R.id.fragment_images_g
+                }.lparams (width = wrapContent, height = wrapContent) {
+                    orientation     = ConstraintLayout.LayoutParams.HORIZONTAL
+                    guidePercent    = 0.20f
                 }
 
-                boomButton(context) {
-                    text = context.getText(R.string.button_save_image)
-                }.lparams {
-                    topToBottom = R.id.fragment_image_visible_image_view
-                    leftToLeft = layout.left
-                    rightToRight = layout.right
-                    topMargin = dip(12)
+                val lg = guideline {
+
+                }.lparams (width = wrapContent, height = wrapContent) {
+                    orientation     = ConstraintLayout.LayoutParams.VERTICAL
+                    guidePercent    = 0.20f
+                }
+
+                videoCard(context){
+                    backgroundColor = Color.RED
+                }.lparams(width = g.width, height = dip(100)) {
+                    topToBottom     = R.id.fragment_images_g
+                    leftToLeft      = layout.left
+                    rightToRight    = layout.right
                 }
 
                 val linearLayout = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

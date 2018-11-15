@@ -7,4 +7,7 @@
     <item name="button_save_gif_file" type="id" />
     <item name="fragment_image_visible_image_view" type="id" />
     <item name="image_pick_item_image_view" type="id" />
+    <item name="fragment_images_placeholder_constraint" type="id" />
+    <item name="fragment_images_placeholder_image_view" type="id" />
+    <item name="fragment_images_g" type="id" />
 </resources>

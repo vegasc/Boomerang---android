@@ -26,18 +26,22 @@ class VideoPlayer(context: Context): SurfaceView(context), AnkoComponent<Context
      * Public fields
      */
     var isLoop = false
+    var isPrepeared = false
+    var isCreated = false
 
     /**
      * Private fields
      */
     private val mPlayer = BoomMediaPlayer()
-    private val mHolder = holder
+    private var mHolder = holder
+    private var mUri:Uri? = null
 
     /**
      * Listeners
      */
     private val mPlayerPrepareListener = MediaPlayer.OnPreparedListener { mp ->
         mp.start()
+        isPrepeared = true
     }
 
     private val mPlayerCompletionListener = MediaPlayer.OnCompletionListener {
@@ -50,35 +54,52 @@ class VideoPlayer(context: Context): SurfaceView(context), AnkoComponent<Context
         println(mp)
         println(what)
         println(extra)
+        isPrepeared = false
         return@OnErrorListener true
     }
 
     private val mSurfaceListener = object : SurfaceHolder.Callback {
         override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
+            mPlayer.setDisplay(holder)
+            if (mUri != null && isPrepeared) {
+                mPlayer.setPath(context, mUri!!)
+            }
         }
 
         override fun surfaceDestroyed(holder: SurfaceHolder?) {
             if (mPlayer.isPlaying) {
                 mPlayer.stop()
-                mPlayer.setDisplay(null)
             }
+            mPlayer.setDisplay(null)
+            isPrepeared = false
+            isCreated = false
         }
 
         override fun surfaceCreated(holder: SurfaceHolder?) {
+            mHolder = holder
+            mPlayer.setDisplay(null)
+            mPlayer.setOnPreparedListener(null)
+            mPlayer.setOnCompletionListener(null)
+            mPlayer.setOnErrorListener(null)
+            mPlayer.reset()
+
             mPlayer.setDisplay(mHolder)
             mPlayer.setOnPreparedListener(mPlayerPrepareListener)
-            if (mPlayer.getDatapath != null) {
-                mPlayer.prepareAsync()
+            mPlayer.setOnCompletionListener(mPlayerCompletionListener)
+            mPlayer.setOnErrorListener(mPlayerErrorListener)
+            if (mUri != null && isPrepeared) {
+                mPlayer.setPath(context, mUri!!)
             }
+            isCreated = true
         }
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         holder.addCallback(mSurfaceListener)
-        mPlayer.setOnPreparedListener(mPlayerPrepareListener)
-        mPlayer.setOnCompletionListener(mPlayerCompletionListener)
-        mPlayer.setOnErrorListener(mPlayerErrorListener)
+//        mPlayer.setOnPreparedListener(mPlayerPrepareListener)
+//        mPlayer.setOnCompletionListener(mPlayerCompletionListener)
+//        mPlayer.setOnErrorListener(mPlayerErrorListener)
     }
 
     override fun createView(ui: AnkoContext<Context>): View {
@@ -86,6 +107,10 @@ class VideoPlayer(context: Context): SurfaceView(context), AnkoComponent<Context
     }
 
     fun playVideo(context: Context, uri: Uri) {
-        mPlayer.setPath(context, uri)
+        mUri = uri
+        if (isCreated) {
+            mPlayer.setPath(context, uri)
+            return
+        }
     }
 }

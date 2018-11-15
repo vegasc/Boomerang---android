@@ -6,7 +6,7 @@ import android.net.Uri
 
 class BoomMediaPlayer: MediaPlayer() {
 
-    private var dataPath:Uri? = null
+    var dataPath:Uri? = null
 
     val getDatapath get() = dataPath
 
