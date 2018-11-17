@@ -3,6 +3,7 @@ package com.alekseyrobul.boomerang.fragments.Images
 import android.graphics.Color
 import android.media.Image
 import android.support.constraint.ConstraintLayout
+import android.support.constraint.Guideline
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -33,39 +34,43 @@ class ImagesFragment: BaseFragment() {
                 val layout = constraintLayout()
                 layout.backgroundColor = resources.getColor(R.color.colorPrimaryDark, context.theme)
 
-                val g= guideline {
+                guideline {
                     id = R.id.fragment_images_g
                 }.lparams (width = wrapContent, height = wrapContent) {
-                    orientation     = ConstraintLayout.LayoutParams.HORIZONTAL
-                    guidePercent    = 0.20f
+                    orientation     = ConstraintLayout.LayoutParams.VERTICAL
+                    guideBegin      = dip(20)
+//                    guideEnd        = dip(20)
                 }
 
-                val lg = guideline {
-
+                guideline {
+                    id = R.id.fragment_images_lg
                 }.lparams (width = wrapContent, height = wrapContent) {
                     orientation     = ConstraintLayout.LayoutParams.VERTICAL
-                    guidePercent    = 0.20f
+//                    guideBegin      = dip(80)
+                    guideEnd        = dip(20)
                 }
 
                 videoCard(context){
                     backgroundColor = Color.RED
-                }.lparams(width = g.width, height = dip(100)) {
-                    topToBottom     = R.id.fragment_images_g
-                    leftToLeft      = layout.left
-                    rightToRight    = layout.right
+                }.lparams(width = matchParent, height = dip(100)) {
+//                    leftToLeft      = R.id.fragment_images_g
+//                    rightToLeft     = R.id.fragment_images_lg
+                    startToStart      = R.id.fragment_images_g
+                    endToStart        = R.id.fragment_images_lg
                 }
 
-                val linearLayout = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                mRecyclerView = recyclerView {
-                    backgroundColor = resources.getColor(R.color.colorPrimaryDark, context.theme)
-                    layoutManager = linearLayout
-                }.lparams(width = 400, height = 200) {
-                    bottomToBottom = layout.bottom
-                    leftToLeft = layout.left
-                    rightToRight = layout.right
-                }
+//                val linearLayout = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+//                mRecyclerView = recyclerView {
+//                    backgroundColor = resources.getColor(R.color.colorPrimaryDark, context.theme)
+//                    layoutManager = linearLayout
+//                }.lparams(width = 400, height = 200) {
+//                    bottomToBottom = layout.bottom
+//                    topToBottom = g.top
+//                    leftToLeft = g.right
+//                    rightToRight = lg.left
+//                }
             }
-            populateAdapter()
+//            populateAdapter()
         }.view
     }
 

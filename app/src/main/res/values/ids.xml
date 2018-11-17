@@ -10,4 +10,5 @@
     <item name="fragment_images_placeholder_constraint" type="id" />
     <item name="fragment_images_placeholder_image_view" type="id" />
     <item name="fragment_images_g" type="id" />
+    <item name="fragment_images_lg" type="id" />
 </resources>

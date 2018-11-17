@@ -2,13 +2,11 @@ package com.alekseyrobul.boomerang.views
 
 import android.content.Context
 import android.graphics.Color
-import android.support.constraint.ConstraintLayout
 import android.view.View
 import android.view.ViewManager
 import android.widget.LinearLayout
 import com.alekseyrobul.boomerang.R
 import org.jetbrains.anko.*
-import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.custom.ankoView
 
 inline fun ViewManager.videoCard(context: Context): VideoCard = videoCard(context) {}
@@ -40,6 +38,8 @@ class VideoCard(context: Context): LinearLayout(context), AnkoComponent<Context>
                 orientation = LinearLayout.HORIZONTAL
                 imageView{
                     backgroundColor = Color.BLACK
+                    minimumWidth = 250
+                    minimumHeight = 250
                 }
             }.lparams(width = matchParent, height = wrapContent)
         }
