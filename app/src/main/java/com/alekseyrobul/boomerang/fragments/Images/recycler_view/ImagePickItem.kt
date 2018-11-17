@@ -28,7 +28,7 @@ inline fun ImagePickItem.applyUI(): ImagePickItem {
                 minimumHeight = min
                 minimumWidth = min
                 id = R.id.image_pick_item_image_view
-                backgroundColor = resources.getColor(R.color.colorAccent, context.theme)
+                backgroundColor = resources.getColor(R.color.colorPrimaryDark2, context.theme)
             }
         }
     }

@@ -2,6 +2,7 @@ package com.alekseyrobul.boomerang.views
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewManager
 import android.widget.LinearLayout
@@ -33,13 +34,18 @@ class VideoCard(context: Context): LinearLayout(context), AnkoComponent<Context>
 //                leftToLeft      = layout.left
 //                rightToRight    = layout.right
 //            }
-            backgroundColor = resources.getColor(R.color.colorPrimary, context!!.theme)
+
             linearLayout {
                 orientation = LinearLayout.HORIZONTAL
                 imageView{
-                    backgroundColor = Color.BLACK
-                    minimumWidth = 250
-                    minimumHeight = 250
+                    backgroundColor     = Color.BLACK
+                    minimumWidth        = 250
+                    minimumHeight       = 250
+                }.lparams {
+                    topMargin       = dip(20)
+                    bottomMargin    = dip(20)
+                    leftMargin      = dip(20)
+                    rightMargin     = dip(20)
                 }
             }.lparams(width = matchParent, height = wrapContent)
         }

@@ -1,11 +1,13 @@
 package com.alekseyrobul.boomerang.fragments.Images
 
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.media.Image
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.Guideline
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.ImageView
@@ -39,39 +41,45 @@ class ImagesFragment: BaseFragment() {
                 }.lparams (width = wrapContent, height = wrapContent) {
                     orientation     = ConstraintLayout.LayoutParams.VERTICAL
                     guideBegin      = dip(20)
-//                    guideEnd        = dip(20)
                 }
 
                 guideline {
                     id = R.id.fragment_images_lg
                 }.lparams (width = wrapContent, height = wrapContent) {
                     orientation     = ConstraintLayout.LayoutParams.VERTICAL
-//                    guideBegin      = dip(80)
                     guideEnd        = dip(20)
                 }
 
                 videoCard(context){
-                    backgroundColor = Color.RED
-                }.lparams(width = matchParent, height = dip(100)) {
-//                    leftToLeft      = R.id.fragment_images_g
-//                    rightToLeft     = R.id.fragment_images_lg
+                    val gradient = GradientDrawable()
+                    gradient.setColor(resources.getColor(R.color.colorPrimaryDark2, context.theme))
+                    gradient.cornerRadius = 20.0f
+                    this.background = gradient
+                    setOnTouchListener { v, event ->
+                        pickVideo()
+                        true
+                    }
+                }.lparams(width = dip(0)) {
+                    topToTop          = layout.top
+                    bottomToBottom    = layout.bottom
                     startToStart      = R.id.fragment_images_g
                     endToStart        = R.id.fragment_images_lg
                 }
 
-//                val linearLayout = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-//                mRecyclerView = recyclerView {
-//                    backgroundColor = resources.getColor(R.color.colorPrimaryDark, context.theme)
-//                    layoutManager = linearLayout
-//                }.lparams(width = 400, height = 200) {
-//                    bottomToBottom = layout.bottom
-//                    topToBottom = g.top
-//                    leftToLeft = g.right
-//                    rightToRight = lg.left
-//                }
+                mRecyclerView = recyclerView {
+                    backgroundColor = resources.getColor(R.color.colorPrimaryDark, context.theme)
+                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                }.lparams(width = dip(0), height = 200) {
+                    bottomToBottom = layout.bottom
+                    startToStart      = R.id.fragment_images_g
+                    endToStart        = R.id.fragment_images_lg
+                }
             }
-//            populateAdapter()
         }.view
+    }
+
+    private fun pickVideo() {
+
     }
 
     private fun populateAdapter() {
