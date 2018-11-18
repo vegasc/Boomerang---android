@@ -3,9 +3,11 @@ package com.alekseyrobul.boomerang.fragments.Images
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.media.Image
+import android.net.Uri
 import android.support.annotation.UiThread
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.Guideline
@@ -25,6 +27,7 @@ import com.alekseyrobul.boomerang.helpers.PermissionHelper
 import com.alekseyrobul.boomerang.views.boomButton
 import com.alekseyrobul.boomerang.views.progressView
 import com.alekseyrobul.boomerang.views.videoCard
+import org.jcodec.common.ArrayUtil
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.constraint.layout.guideline
@@ -41,7 +44,7 @@ class ImagesFragment: BaseFragment() {
     private lateinit var mRecyclerView:RecyclerView
     private lateinit var mVisibleImageView:ImageView
     private lateinit var mIMagesAdapter: ImagesAdapter
-    private lateinit var mImagesList:List<ImagePick>
+//    private lateinit var mImagesList:List<ImagePick>
     private lateinit var mProgressView: View
 
     override fun updateUI(): View {
@@ -82,11 +85,12 @@ class ImagesFragment: BaseFragment() {
 
                 mRecyclerView = recyclerView {
                     backgroundColor = resources.getColor(R.color.colorPrimaryDark, context.theme)
-                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                }.lparams(width = dip(0), height = 200) {
-                    bottomToBottom = layout.bottom
-                    startToStart      = R.id.fragment_images_g
-                    endToStart        = R.id.fragment_images_lg
+                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                }.lparams(width = dip(0), height = 400) {
+                    bottomToBottom  = layout.bottom
+                    startToStart    = R.id.fragment_images_g
+                    endToStart      = R.id.fragment_images_lg
+                    bottomMargin    = dip(20)
                 }
 
                 mProgressView = progressView(context = context) {
@@ -136,15 +140,20 @@ class ImagesFragment: BaseFragment() {
     private fun parseVideo(intent: Intent) {
         if (context == null) { return }
         mProgressView.visibility = View.VISIBLE
-        GetImages(context!!, intent.data).getImages { images ->
+        GetImages(context!!, intent.data).getImages { uris ->
             mProgressView.visibility = View.INVISIBLE
-            println(images.size)
+            populateAdapter(uris)
         }
     }
 
-    private fun populateAdapter() {
-        mImagesList = arrayOf(ImagePick()).toList()
-        mIMagesAdapter = ImagesAdapter(context!!,mImagesList)
+    private fun populateAdapter(uris:ArrayList<Uri>) {
+        var imgPics = ArrayList<ImagePick>()
+        for (uri in uris) {
+            imgPics.add(ImagePick(uri))
+        }
+//        mImagesList = imgPics
+//        mImagesList = arrayOf(ImagePick()).toList()
+        mIMagesAdapter = ImagesAdapter(context!!, imgPics)
         mRecyclerView.adapter = mIMagesAdapter
         mIMagesAdapter.notifyDataSetChanged()
     }

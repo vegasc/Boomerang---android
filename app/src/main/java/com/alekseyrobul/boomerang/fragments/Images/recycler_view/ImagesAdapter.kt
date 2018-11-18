@@ -23,5 +23,7 @@ class ImagesAdapter(private val context: Context, private val list:List<ImagePic
 
     override fun onBindViewHolder(holder: ImagesViewHolder, position: Int) {
         // bind data
+        val imgPick = list[position]
+        holder.imagePickItem.imageView.setImageURI(imgPick.uri)
     }
 }
