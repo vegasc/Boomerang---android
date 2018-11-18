@@ -44,7 +44,6 @@ class ImagesFragment: BaseFragment() {
     private lateinit var mRecyclerView:RecyclerView
     private lateinit var mVisibleImageView:ImageView
     private lateinit var mIMagesAdapter: ImagesAdapter
-//    private lateinit var mImagesList:List<ImagePick>
     private lateinit var mProgressView: View
 
     override fun updateUI(): View {
@@ -86,7 +85,7 @@ class ImagesFragment: BaseFragment() {
                 mRecyclerView = recyclerView {
                     backgroundColor = resources.getColor(R.color.colorPrimaryDark, context.theme)
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                }.lparams(width = dip(0), height = 400) {
+                }.lparams(width = dip(0), height = 420) {
                     bottomToBottom  = layout.bottom
                     startToStart    = R.id.fragment_images_g
                     endToStart      = R.id.fragment_images_lg
@@ -151,8 +150,6 @@ class ImagesFragment: BaseFragment() {
         for (uri in uris) {
             imgPics.add(ImagePick(uri))
         }
-//        mImagesList = imgPics
-//        mImagesList = arrayOf(ImagePick()).toList()
         mIMagesAdapter = ImagesAdapter(context!!, imgPics)
         mRecyclerView.adapter = mIMagesAdapter
         mIMagesAdapter.notifyDataSetChanged()

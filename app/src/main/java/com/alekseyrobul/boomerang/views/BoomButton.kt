@@ -38,4 +38,17 @@ class BoomButton(context: Context): Button(context), AnkoComponent<Button> {
         gradient.cornerRadius = 20.0f
         background = gradient
     }
+
+    fun setStyle(color: Int) {
+        layout.apply {
+            leftPadding = dip(16)
+            rightPadding = dip(16)
+        }
+        textColor = Color.WHITE
+
+        val gradient = GradientDrawable()
+        gradient.setColor(color)
+        gradient.cornerRadius = 20.0f
+        background = gradient
+    }
 }

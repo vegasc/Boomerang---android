@@ -1,6 +1,8 @@
 package com.alekseyrobul.boomerang.fragments.Images.recycler_view
 
 import android.content.Context
+import android.graphics.drawable.BitmapDrawable
+import android.provider.MediaStore
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import org.jetbrains.anko.AnkoContext
@@ -24,6 +26,8 @@ class ImagesAdapter(private val context: Context, private val list:List<ImagePic
     override fun onBindViewHolder(holder: ImagesViewHolder, position: Int) {
         // bind data
         val imgPick = list[position]
-        holder.imagePickItem.imageView.setImageURI(imgPick.uri)
+        val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, imgPick.uri)
+        val drawable = BitmapDrawable(context.resources, bitmap)
+        holder.imagePickItem.imageView.background = drawable
     }
 }
