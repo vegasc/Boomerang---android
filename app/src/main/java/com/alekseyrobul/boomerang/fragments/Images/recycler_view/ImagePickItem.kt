@@ -3,6 +3,8 @@ package com.alekseyrobul.boomerang.fragments.Images.recycler_view
 import android.content.Context
 import android.graphics.Color
 import android.view.Gravity
+import android.view.MotionEvent
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -10,7 +12,12 @@ import com.alekseyrobul.boomerang.R
 import com.alekseyrobul.boomerang.views.boomButton
 import org.jetbrains.anko.*
 
+interface ImagePickItemListener {
+    fun onSaveButtonAction()
+}
+
 class ImagePickItem(context: Context): LinearLayout(context), AnkoComponent<Context> {
+    var listener:ImagePickItemListener? = null
     lateinit var imageView: ImageView
     override fun createView(ui: AnkoContext<Context>): ImagePickItem = with(ui) {
         applyUI()
@@ -41,7 +48,10 @@ inline fun ImagePickItem.applyUI(): ImagePickItem {
                 text = "Save"
                 setStyle(Color.WHITE)
                 textColor = Color.BLACK
-            }.lparams {
+                setOnClickListener {
+                    listener?.onSaveButtonAction()
+                }
+            }.lparams(height = 100) {
                 alignParentBottom()
                 centerHorizontally()
             }

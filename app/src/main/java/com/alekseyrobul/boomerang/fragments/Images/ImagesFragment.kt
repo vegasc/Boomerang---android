@@ -3,31 +3,22 @@ package com.alekseyrobul.boomerang.fragments.Images
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.media.Image
 import android.net.Uri
-import android.support.annotation.UiThread
 import android.support.constraint.ConstraintLayout
-import android.support.constraint.Guideline
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.ImageView
 import com.alekseyrobul.boomerang.R
 import com.alekseyrobul.boomerang.classes.GetImages
 import com.alekseyrobul.boomerang.fragments.Images.recycler_view.ImagePick
 import com.alekseyrobul.boomerang.fragments.Images.recycler_view.ImagesAdapter
-import com.alekseyrobul.boomerang.fragments.boomerang.BoomerangFragment
+import com.alekseyrobul.boomerang.fragments.Images.recycler_view.ImagesAdapterListener
 import com.alekseyrobul.boomerang.helpers.BaseFragment
 import com.alekseyrobul.boomerang.helpers.PermissionHelper
-import com.alekseyrobul.boomerang.views.boomButton
+import com.alekseyrobul.boomerang.views.VideoCard
 import com.alekseyrobul.boomerang.views.progressView
 import com.alekseyrobul.boomerang.views.videoCard
-import org.jcodec.common.ArrayUtil
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.constraint.layout.guideline
@@ -41,8 +32,8 @@ class ImagesFragment: BaseFragment() {
         val GET_VIDEO_REQUEST = 1000;
     }
 
+    private lateinit var mVideoCard:VideoCard
     private lateinit var mRecyclerView:RecyclerView
-    private lateinit var mVisibleImageView:ImageView
     private lateinit var mIMagesAdapter: ImagesAdapter
     private lateinit var mProgressView: View
 
@@ -66,7 +57,7 @@ class ImagesFragment: BaseFragment() {
                     guideEnd        = dip(20)
                 }
 
-                videoCard(context){
+                mVideoCard = videoCard(context){
                     val gradient = GradientDrawable()
                     gradient.setColor(resources.getColor(R.color.colorPrimaryDark2, context.theme))
                     gradient.cornerRadius = 20.0f
@@ -139,10 +130,16 @@ class ImagesFragment: BaseFragment() {
     private fun parseVideo(intent: Intent) {
         if (context == null) { return }
         mProgressView.visibility = View.VISIBLE
-        GetImages(context!!, intent.data).getImages { uris ->
-            mProgressView.visibility = View.INVISIBLE
+        updateVideoCard(intent.data)
+        GetImages(context!!, intent.data).getImages { uris, data ->
+            mVideoCard.displayData(data)
             populateAdapter(uris)
+            mProgressView.visibility = View.INVISIBLE
         }
+    }
+
+    private fun updateVideoCard(uri: Uri) {
+
     }
 
     private fun populateAdapter(uris:ArrayList<Uri>) {
@@ -153,5 +150,15 @@ class ImagesFragment: BaseFragment() {
         mIMagesAdapter = ImagesAdapter(context!!, imgPics)
         mRecyclerView.adapter = mIMagesAdapter
         mIMagesAdapter.notifyDataSetChanged()
+        val self = this
+        mIMagesAdapter.listener = object : ImagesAdapterListener {
+            override fun saveImage(uri: Uri) {
+                self.saveImage(uri)
+            }
+        }
+    }
+
+    private fun saveImage(uri: Uri) {
+        println(uri)
     }
 }

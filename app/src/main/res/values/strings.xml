@@ -10,4 +10,6 @@
     <string name="boomerang_has_been_saved">Boomerang has been saved</string>
     <string name="gif_has_been_saved">Gif has been saved</string>
     <string name="error_saving_file">Error saving file</string>
+    <string name="video_name">Video name</string>
+    <string name="video_file_size">Size</string>
 </resources>
