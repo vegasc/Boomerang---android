@@ -140,7 +140,6 @@ class BoomerangFragment: BaseFragment() {
 
     private fun saveVideo() {
         val videoFile = File(URI.create(mVideoUri.toString()))
-        println(Uri.parse(mVideoUri.toString()))
         if (context == null) { return }
         if (mVideoUri == null) { return }
         if (!videoFile.exists()) { return }

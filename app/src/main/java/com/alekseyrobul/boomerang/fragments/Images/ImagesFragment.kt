@@ -2,21 +2,30 @@ package com.alekseyrobul.boomerang.fragments.Images
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
+import android.provider.MediaStore
 import android.support.constraint.ConstraintLayout
+import android.support.v4.content.FileProvider
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.Toast
+import com.alekseyrobul.boomerang.BuildConfig
 import com.alekseyrobul.boomerang.R
 import com.alekseyrobul.boomerang.classes.GetImages
 import com.alekseyrobul.boomerang.fragments.Images.recycler_view.ImagePick
 import com.alekseyrobul.boomerang.fragments.Images.recycler_view.ImagesAdapter
 import com.alekseyrobul.boomerang.fragments.Images.recycler_view.ImagesAdapterListener
+import com.alekseyrobul.boomerang.fragments.boomerang.BoomerangFragment
 import com.alekseyrobul.boomerang.helpers.BaseFragment
+import com.alekseyrobul.boomerang.helpers.DateUtils
+import com.alekseyrobul.boomerang.helpers.FileUtilitty
 import com.alekseyrobul.boomerang.helpers.PermissionHelper
 import com.alekseyrobul.boomerang.views.VideoCard
+import com.alekseyrobul.boomerang.views.boomButton
 import com.alekseyrobul.boomerang.views.progressView
 import com.alekseyrobul.boomerang.views.videoCard
 import org.jetbrains.anko.*
@@ -24,6 +33,8 @@ import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.constraint.layout.guideline
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.UI
+import java.io.File
+import java.net.URI
 
 class ImagesFragment: BaseFragment() {
 
@@ -58,6 +69,7 @@ class ImagesFragment: BaseFragment() {
                 }
 
                 mVideoCard = videoCard(context){
+                    id = R.id.fragment_images_video_card
                     val gradient = GradientDrawable()
                     gradient.setColor(resources.getColor(R.color.colorPrimaryDark2, context.theme))
                     gradient.cornerRadius = 20.0f
@@ -73,10 +85,20 @@ class ImagesFragment: BaseFragment() {
                     endToStart        = R.id.fragment_images_lg
                 }
 
+                boomButton(context = context) {
+                    text = context.resources.getText(R.string.button_choose_video_file)
+                    setOnClickListener { pickVideo() }
+                }.lparams {
+                    topToBottom     = R.id.fragment_images_video_card
+                    leftToLeft      = R.id.fragment_images_video_card
+                    rightToRight    = R.id.fragment_images_video_card
+                    topMargin       = dip(10)
+                }
+
                 mRecyclerView = recyclerView {
                     backgroundColor = resources.getColor(R.color.colorPrimaryDark, context.theme)
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                }.lparams(width = dip(0), height = 420) {
+                }.lparams(width = dip(0), height = 400) {
                     bottomToBottom  = layout.bottom
                     startToStart    = R.id.fragment_images_g
                     endToStart      = R.id.fragment_images_lg
@@ -130,16 +152,11 @@ class ImagesFragment: BaseFragment() {
     private fun parseVideo(intent: Intent) {
         if (context == null) { return }
         mProgressView.visibility = View.VISIBLE
-        updateVideoCard(intent.data)
         GetImages(context!!, intent.data).getImages { uris, data ->
             mVideoCard.displayData(data)
             populateAdapter(uris)
             mProgressView.visibility = View.INVISIBLE
         }
-    }
-
-    private fun updateVideoCard(uri: Uri) {
-
     }
 
     private fun populateAdapter(uris:ArrayList<Uri>) {
@@ -159,6 +176,31 @@ class ImagesFragment: BaseFragment() {
     }
 
     private fun saveImage(uri: Uri) {
-        println(uri)
+        val imageFile = File(URI.create(uri.toString()))
+        if (!imageFile.exists()) { return }
+        
+        // move cached file to hidden directory
+        val fileName = DateUtils.getCurrentDate() + "_" + "boom_movie_screen.jpg"
+        val copy = imageFile.copyTo(File(FileUtilitty.externalMediaFolder(context!!).absolutePath + "/" + fileName))
+
+        // prepare meta data
+        val values = ContentValues(3)
+        values.put(MediaStore.Images.Media.TITLE, "Video screen ${fileName}")
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+        values.put(MediaStore.Images.Media.DATA, copy.absolutePath)
+
+        // insert file uri to files db
+        val uri = FileProvider.getUriForFile(context!!, BuildConfig.APPLICATION_ID, copy)
+        if (uri == null) {
+            Toast.makeText(context!!, context!!.getText(R.string.error_saving_file), Toast.LENGTH_SHORT).show()
+            return
+        }
+        val insertUri = context!!.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+        if (insertUri == null) {
+            Toast.makeText(context!!, context!!.getText(R.string.error_saving_file), Toast.LENGTH_SHORT).show()
+            return
+        }
+        context!!.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, insertUri))
+        Toast.makeText(context!!, context!!.getText(R.string.image_has_been_saved), Toast.LENGTH_SHORT).show()
     }
 }

@@ -31,7 +31,7 @@ class ImagePickItem(context: Context): LinearLayout(context), AnkoComponent<Cont
 
 inline fun ImagePickItem.applyUI(): ImagePickItem {
     return this {
-        val min = 420
+        val min = 380
         relativeLayout {
             rightPadding = dip(10)
             linearLayout {

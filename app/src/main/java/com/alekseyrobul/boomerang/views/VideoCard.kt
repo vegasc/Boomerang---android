@@ -30,6 +30,7 @@ class VideoCard(context: Context): LinearLayout(context), AnkoComponent<Context>
     private lateinit var mVideoCover:ImageView
     private lateinit var mVideoName:TextView
     private lateinit var mSizeText:TextView
+    private lateinit var mCountText:TextView
 
     override fun createView(ui: AnkoContext<Context>): View {
         return linearLayout {
@@ -58,6 +59,10 @@ class VideoCard(context: Context): LinearLayout(context), AnkoComponent<Context>
                     text = context.resources.getText(R.string.video_file_size)
                     setTextColor(Color.WHITE)
                 }
+                mCountText = textView {
+                    text = context.resources.getText(R.string.video_file_images_count)
+                    setTextColor(Color.WHITE)
+                }
             }.lparams {
                 topMargin       = dip(20)
                 bottomMargin    = dip(20)
@@ -72,5 +77,6 @@ class VideoCard(context: Context): LinearLayout(context), AnkoComponent<Context>
         mVideoName.text = data.name
         val size = SizeUtils.getSize(data.size.toLong()) ?: return
         mSizeText.text  = "${context.resources.getText(R.string.video_file_size)}: ${size.size} ${size.type}"
+        mCountText.text = "${context.resources.getText(R.string.video_file_images_count)} ${data.imgCount}"
     }
 }

@@ -11,4 +11,5 @@
     <item name="fragment_images_placeholder_image_view" type="id" />
     <item name="fragment_images_g" type="id" />
     <item name="fragment_images_lg" type="id" />
+    <item name="fragment_images_video_card" type="id" />
 </resources>
