@@ -23,7 +23,7 @@ class BoomerangEffect {
                 var imgs = arrayListOf<Bitmap>()
                 var i:Long = 1000000 // frame time in milliseconds
                 var seconds = 0
-                while (seconds < 6) {
+                while (seconds < (media.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toInt() / 1000)) {
                     val img = media.getFrameAtTime(i)
                     imgs.add(img)
                     i += 1000000
