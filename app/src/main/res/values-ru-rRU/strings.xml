@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name"></string>
+    <string name="menu_item_boomerang">Бумеранг</string>
+    <string name="menu_item_gif">Гиф</string>
+    <string name="menu_images">Картинки</string>
+    <string name="button_choose_video_file">Видео файл</string>
+    <string name="button_save_video_file">Сохранить видео</string>
+    <string name="button_save_gif_file">Сохранить гиф</string>
+    <string name="button_save_image">Сохранить картинку</string>
+    <string name="boomerang_has_been_saved">Сохранено</string>
+    <string name="gif_has_been_saved">Сохранено</string>
+    <string name="error_saving_file">Ошибка при сохранении</string>
+    <string name="video_name">Название видео</string>
+    <string name="video_file_size">Размер</string>
+    <string name="video_file_images_count">Кол. картинок:</string>
+    <string name="image_has_been_saved">Сохранено</string>
+</resources>
